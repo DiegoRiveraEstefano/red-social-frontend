@@ -5,7 +5,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/red-social-frontend /',
+  base: '/red-social-frontend/',
   plugins: [
     vue(),
   ],
