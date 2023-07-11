@@ -1,7 +1,6 @@
 <script setup>
-import axios from 'axios'
-import cookies from 'vue-cookies'
-import router from '../../router/index.js' 
+import router from '../../router/index.js'
+import {getTokenApi} from '../../api/api.js'
 </script>
 
 <template>
@@ -28,28 +27,13 @@ import router from '../../router/index.js'
 
 <script>
 export default {    
-    data () {
-      return {
-        urlBase: "http://127.0.0.1:80/"
-      }
-    },
     methods: {
-
         async getToken(username, password) {
-            console.log(username, password, this.urlBase)
-            var options = {
-                method: 'POST',
-                url: this.urlBase + 'user/api/auth/',
-                data: {
-                    username: username,
-                    password: password
-                }
-            };
-            const response = await axios.request(options)
-            const token = response.data.token;
-            cookies.set("token", token);
-            cookies.set("username", username);
-            router.push({ name: 'user-home', params: { user: username } });
+            const response = await getTokenApi(username, password);
+            console.log(response)
+            if (response.status == 200){
+                router.push({ name: 'user-home', params: { user: username } });
+            }
         },
     }
 }

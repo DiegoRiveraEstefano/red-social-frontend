@@ -1,5 +1,5 @@
 <script setup>
-import axios from 'axios'
+import {createUserApi} from '../../api/api.js'    
 import router from '../../router/index.js'
 </script>
 
@@ -44,38 +44,10 @@ import router from '../../router/index.js'
 
 <script>
 export default {
-    data () {
-      return {
-        urlBase: "http://127.0.0.1:80/",
-      }
-    },
     methods: {
         async createUser(username, firstName, email, password){
-
-            var data = {
-                    username: username,
-                    password: password,
-                    email: email,
-                    firstName: firstName
-                }
-            
-            for (var key in data){
-                if (data[key] == undefined){
-                    throw Error
-                }
-            }
-
-            var options = {
-                method: 'POST',
-                url: this.urlBase + 'user/api/v1/user/',
-                headers: {
-                    Accept: '*/*',
-                    //Authorization: 'token ' + cookies.get("token"),
-                    'Content-Type': 'application/json'
-                },                
-                data: data
-            };
-            const response = await axios.request(options)
+            const response = await createUserApi(username, firstName, email, password)
+            console.log(response.status)
             if (response.status == 201){
                 router.push({name: "user-login"})
             }

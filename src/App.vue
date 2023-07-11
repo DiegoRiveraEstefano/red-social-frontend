@@ -57,16 +57,13 @@ import SessionButtoms from './components/Utils/SessionButtoms.vue';
 			</nav>
 		</div>
 	</header>
-	<RouterView></RouterView>
+	<RouterView>
+
+	</RouterView>
 </template>
 
 <script>
 export default {
-	data() {
-		return {
-			urlBase: "http://127.0.0.1:80/"
-		}
-	},
 	methods: {
 		isLog() {
 			return (this.$cookies.get("username") != null)

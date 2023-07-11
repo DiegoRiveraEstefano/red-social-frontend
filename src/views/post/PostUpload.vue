@@ -1,7 +1,7 @@
 <script setup>
-import axios from 'axios'
 import cookies from 'vue-cookies'
 import router from '../../router/index.js' 
+import {uploadPostApi} from '../../api/api.js'
 </script>
 
 <template>
@@ -35,11 +35,6 @@ import router from '../../router/index.js'
 
 <script>
 export default {
-    data () {
-      return {
-        urlBase: "http://127.0.0.1:80/"
-      }
-    },
     methods: {
 
         async uploadPost(title, description, imageUrl) {
@@ -47,24 +42,8 @@ export default {
             if (cookies.get("token") == undefined){
                 return
             }
-
-            console.log(this.urlBase)
-
-            var options = {
-                method: 'POST',
-                url: this.urlBase + 'post/api/v1/post/',
-                headers: {
-                    'Accept': '*/*',
-                    'Authorization': 'token ' + cookies.get("token"),
-                    'Content-Type': 'application/json'
-                },
-                data: {
-                    title: title,
-                    description: description,
-                    image_url: imageUrl,
-                }
-            };
-            const response = await axios.request(options)
+            const response = await uploadPostApi(title, description, imageUrl)
+            console.log(response)
             if (response.status == 201){
                 router.push({ name: 'home'});
             }

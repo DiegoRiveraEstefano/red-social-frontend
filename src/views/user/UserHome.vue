@@ -1,7 +1,8 @@
 <script setup>
-import axios from 'axios';
-import cookies from 'vue-cookies';
+import { getUserInfoApi } from '../../api/api.js'
+import { useRoute } from 'vue-router'
 </script>
+
 
 <template>
     <div class="container">
@@ -19,8 +20,12 @@ import cookies from 'vue-cookies';
                         </figure>
                     </div>
                     <div class="media-content">
-                        <p class="title is-4">{{ user.username }}</p>
-                        <p class="subtitle is-6"> {{ user.email }} </p>
+                        <p class="title is-4">
+                            {{ user.username }}
+                        </p>
+                        <p class="subtitle is-6">
+                            {{ user.email}}
+                        </p>
                     </div>
                 </div>
 
@@ -38,29 +43,15 @@ import cookies from 'vue-cookies';
 
 <script>
 export default {
-    data() {
+    data(){
         return {
-            "user": {}
+            user: {}
         }
     },
-    methods: {
-        async getUserInfo() {
-            var options = {
-                method: 'GET',
-                url: 'http://127.0.0.1:8000/user/api/v1/user/' + this.$route.params.user,
-                headers: {
-                    'Accept': '*/*',
-                    'Authorization': 'token ' + cookies.get("token"),
-                    'Content-Type': 'application/json'
-                },
-            };
-            const response = await axios.request(options)
-            this.user = response.data;
-        }
-    },
-    created() {
-        this.getUserInfo()
+    created(){
+        this.user = getUserInfoApi(useRoute().params.user).then(
+            response => {this.user = response.data}
+        )
     }
 }
-
 </script>

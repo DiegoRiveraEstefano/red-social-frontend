@@ -1,6 +1,6 @@
 <script setup>
-import axios from 'axios'
-import cookies from 'vue-cookies'
+import {getPostApi} from '../../api/api.js'
+import { useRoute } from 'vue-router'
 </script>
 
 <template>
@@ -28,7 +28,8 @@ import cookies from 'vue-cookies'
             </div>
 
             <div class="content">
-                <h1>{{ post.description }}</h1>
+                <h1>{{ post.title }}</h1>
+                <p>{{ post.description }}</p>
             </div>
         </div>
     </div>
@@ -36,34 +37,21 @@ import cookies from 'vue-cookies'
 
 <script>
 export default {
-    data() {
+    data(){
         return {
-            urlBase: "http://127.0.0.1:80/",
-            post: this.getPost(),
+            post: {}
         }
-    },
-    methods: {
-
+    },  
+    methods: {        
         async getPost() {
-
-            let post_name = this.$route.params.post;
-
-            var options = {
-                method: 'GET',
-                url: this.urlBase + 'post/api/v1/post/' + post_name,
-                headers: {
-                    'Accept': '*/*',
-                    'Authorization': 'token ' + cookies.get("token"),
-                    'Content-Type': 'application/json'
-                }
-            };
-            const response = await axios.request(options)
-            return response.data
+            const response = await getPostApi(useRoute().params.post);
+            return response.data;
         },
     },
-    async beforeMount() {
-        this.post = await this.getPost()
-        console.log(this.post)
+    created() {
+        this.post = getPostApi(useRoute().params.post).then(response => {
+            this.post = response.data
+        })  
     }
 }
 

@@ -1,7 +1,6 @@
 <script setup>
-import axios from 'axios'
-//import router from '../../router/index.js'
 import PostBase from '../../components/post/PostBase.vue'
+import {getPostsApi} from '../../api/api.js'
 </script>
 
 <template>
@@ -19,32 +18,25 @@ import PostBase from '../../components/post/PostBase.vue'
 
 <script>
 export default {
-    data () {
-      return {
-        urlBase: "http://127.0.0.1:80/",
-        posts: this.getPosts()
-      }
+    data(){
+        return{
+            posts: []
+        }
     },
     methods: {
-
         async getPosts() {
-
-            var options = {
-                method: 'GET',
-                url: this.urlBase + 'post/api/v1/post/',
-                headers: {
-                    'Accept': '*/*',
-                    //'Authorization': 'token ' + cookies.get("token"),
-                    'Content-Type': 'application/json'
-                }
-            };
-            const response = await axios.request(options)
-            return response.data
+            const response = await getPostsApi();
+            console.log(response.data)
+            for (var x in response.data){
+                this.posts.push(response.data[x])
+            }
+            return response.data;
         },      
     },
-    async beforeMount(){
-        this.posts = await this.getPosts()
-        console.log(this.posts)
+    created(){
+        this.posts = getPostsApi().then(response => {
+            this.posts = response.data
+        })
     }
 }
 
