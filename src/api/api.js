@@ -56,7 +56,6 @@ export function getPostApi(post_name) {
         url: url + 'post/api/v1/post/' + post_name,
         headers: {
             'Accept': '*/*',
-            //'Authorization': 'token ' + cookies.get("token"),
             'Content-Type': 'application/json'
         }
     };
@@ -69,9 +68,14 @@ export async function getTokenApi(username, password) {
     var options = {
         method: 'POST',
         url: url + 'user/api/auth/',
+        headers: {
+            "Accept": '*/*',
+            "Accept-Encoding": "gzip, deflate, br",
+            'Content-Type': 'application/json'
+        },
         data: {
-            username: username,
-            password: password
+            "username": username,
+            "password": password
         }
     };
     const response = await axios.request(options)
@@ -89,7 +93,7 @@ export async function createUserApi(username, firstName, email, password){
         url: url + 'user/api/v1/user/',
         headers: {
             "Accept": '*/*',
-            //Authorization: 'token ' + cookies.get("token"),
+            "Accept-Encoding": "gzip, deflate, br",
             'Content-Type': 'application/json'
         },                
         data: {
