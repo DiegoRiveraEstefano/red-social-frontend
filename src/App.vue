@@ -29,24 +29,14 @@ import SessionButtoms from './components/Utils/SessionButtoms.vue';
 									Home
 								</a>
 							</RouterLink>
-							<RouterLink to="/">
-								<a class="navbar-item">
-									Post
-								</a>
-							</RouterLink>
 							<div class="navbar-item has-dropdown is-hoverable">
 								<RouterLink to="/">
 									<a class="navbar-link">
-										Misc
+										Opciones
 									</a>
 								</RouterLink>
 								<div class="navbar-dropdown">
-									<RouterLink to="/">
-										<a class="navbar-item">
-											Groups
-										</a>
-									</RouterLink>
-									<RouterLink to="/">
+									<RouterLink v-show="isLog()" to="/post/upload">
 										<a class="navbar-item">
 											Upload
 										</a>
@@ -74,7 +64,7 @@ import SessionButtoms from './components/Utils/SessionButtoms.vue';
 export default {
 	data() {
 		return {
-
+			urlBase: "http://127.0.0.1:80/"
 		}
 	},
 	methods: {

@@ -1,8 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import UserLogin from '../views/user/UserLogin.vue';
 import UserHome from '../views/user/UserHome.vue';
-import AboutView from '../views/AboutView.vue';
 import UserRegister from '../views/user/UserRegister.vue';
+import PostView from '../views/post/PostView.vue';
+import PostUpload from '../views/post/PostUpload.vue';
+import PostDetailed from '../views/post/PostDetailed.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,7 +12,28 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: AboutView
+      component: PostView,
+    },
+    {
+      path: '/post',
+      name: 'post-parent',
+      children: [
+        {
+          path: '',
+          name: 'post-views',
+          component: PostView,          
+        },
+        {
+          path: 'upload',
+          name: 'post-upload',
+          component: PostUpload,          
+        },
+        {
+          path: ':post',
+          name: 'post-detailed',
+          component: PostDetailed,          
+        },
+      ]
     },
     {
       path: '/user',

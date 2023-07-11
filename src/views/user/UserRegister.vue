@@ -1,6 +1,5 @@
 <script setup>
 import axios from 'axios'
-import cookies from 'vue-cookies'
 import router from '../../router/index.js'
 </script>
 
@@ -45,6 +44,11 @@ import router from '../../router/index.js'
 
 <script>
 export default {
+    data () {
+      return {
+        urlBase: "http://127.0.0.1:80/",
+      }
+    },
     methods: {
         async createUser(username, firstName, email, password){
 
@@ -63,13 +67,12 @@ export default {
 
             var options = {
                 method: 'POST',
-                url: 'http://127.0.0.1:8000/user/api/v1/user/',
+                url: this.urlBase + 'user/api/v1/user/',
                 headers: {
                     Accept: '*/*',
-                    Authorization: 'token ' + cookies.get("token"),
+                    //Authorization: 'token ' + cookies.get("token"),
                     'Content-Type': 'application/json'
-                },
-                
+                },                
                 data: data
             };
             const response = await axios.request(options)

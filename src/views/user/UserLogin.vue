@@ -27,13 +27,19 @@ import router from '../../router/index.js'
 </template>
 
 <script>
-export default {
+export default {    
+    data () {
+      return {
+        urlBase: "http://127.0.0.1:80/"
+      }
+    },
     methods: {
 
         async getToken(username, password) {
+            console.log(username, password, this.urlBase)
             var options = {
                 method: 'POST',
-                url: 'http://127.0.0.1:8000/user/api/auth/',
+                url: this.urlBase + 'user/api/auth/',
                 data: {
                     username: username,
                     password: password
